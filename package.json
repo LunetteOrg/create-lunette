@@ -1,10 +1,10 @@
 {
-  "name": "@lunette/create",
+  "name": "@lntt/create",
   "version": "0.1.0",
   "description": "Scaffold a new project from LunetteOrg/starter",
   "type": "module",
   "bin": {
-    "create-lunette": "./bin/index.mjs"
+    "create-lntt": "bin/index.mjs"
   },
   "files": [
     "bin"

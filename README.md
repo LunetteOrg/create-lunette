@@ -1,13 +1,13 @@
-# @lunette/create
+# @lntt/create
 
-CLI per scaffoldare un nuovo progetto a partire da [`LunetteOrg/starter`](https://github.com/LunetteOrg/starter).
+CLI per scaffoldare un nuovo progetto a partire da [`LunetteOrg/starter`](https://github.com/LunetteOrg/starter). `lntt` è l'abbreviazione (consonanti) di "lunette" usata come namespace npm; l'org GitHub resta `LunetteOrg`.
 
 ## Uso
 
 ```bash
-npm create @lunette my-app
+npm create @lntt my-app
 # oppure
-pnpm create @lunette my-app
+pnpm create @lntt my-app
 ```
 
 Poi:
