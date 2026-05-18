@@ -1,0 +1,38 @@
+{
+  "name": "@lunette/create",
+  "version": "0.1.0",
+  "description": "Scaffold a new project from LunetteOrg/starter",
+  "type": "module",
+  "bin": {
+    "create-lunette": "./bin/index.mjs"
+  },
+  "files": [
+    "bin"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "keywords": [
+    "create",
+    "lunette",
+    "starter",
+    "template",
+    "monorepo"
+  ],
+  "author": "LunetteOrg",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LunetteOrg/create-lunette.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LunetteOrg/create-lunette/issues"
+  },
+  "homepage": "https://github.com/LunetteOrg/create-lunette#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
