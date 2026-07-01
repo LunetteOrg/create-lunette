@@ -11,7 +11,8 @@ const PLACEHOLDER_SCOPE = '@starter'
 const PLACEHOLDER_NAMES = ['starter-db', 'starter-web']
 const TEXT_EXTENSIONS = new Set([
   '.json', '.jsonc', '.yaml', '.yml', '.ts', '.tsx', '.js', '.mjs', '.cjs',
-  '.md', '.css', '.html', '.env', '.nvmrc', '.npmrc', '.gitignore',
+  '.md', '.mdx', '.css', '.html', '.env', '.nvmrc', '.npmrc', '.gitignore',
+  '.template',
 ])
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.react-router', '.turbo'])
 
@@ -80,8 +81,11 @@ function renamePlaceholders(rootDir, name) {
   for (const file of walk(rootDir)) {
     if (!isTextFile(file)) continue
     const original = readFileSync(file, 'utf8')
+    // Match the scope when it prefixes a package path via either a plain slash
+    // (`@starter/ui`) or a regex-escaped slash (`/^@starter\/db/` in arch specs).
+    const scopeBeforePathSep = new RegExp(`${PLACEHOLDER_SCOPE}(?=[\\\\/])`, 'g')
     let content = original
-      .replaceAll(`${PLACEHOLDER_SCOPE}/`, `${scope}/`)
+      .replace(scopeBeforePathSep, scope)
       .replaceAll('starter-db', dbName)
       .replaceAll('starter-web', webName)
     // Only rewrite "name": "starter" in package.json files (avoid false positives elsewhere)
@@ -108,6 +112,16 @@ function rewriteComposeCreds(rootDir, name) {
   if (content !== original) writeFileSync(composePath, content)
 }
 
+function rewriteRenderCreds(rootDir, name) {
+  const renderPath = join(rootDir, 'render.yaml')
+  if (!existsSync(renderPath)) return
+  const original = readFileSync(renderPath, 'utf8')
+  const content = original
+    .replaceAll('databaseName: starter', `databaseName: ${name}`)
+    .replaceAll('user: starter', `user: ${name}`)
+  if (content !== original) writeFileSync(renderPath, content)
+}
+
 function rewriteCiCreds(rootDir, name) {
   const ciPath = join(rootDir, '.github/workflows/ci.yml')
   if (!existsSync(ciPath)) return
@@ -122,7 +136,7 @@ function rewriteCiCreds(rootDir, name) {
 
 function gitInit(rootDir, name) {
   try {
-    execSync('git init -q', { cwd: rootDir, stdio: 'inherit' })
+    execSync('git init -q -b main', { cwd: rootDir, stdio: 'inherit' })
     execSync('git add .', { cwd: rootDir, stdio: 'inherit' })
     execSync(`git commit -q -m "chore: scaffold ${name} from @lunette/create"`, {
       cwd: rootDir,
@@ -152,6 +166,7 @@ async function main() {
     downloadTemplate(stagingDir)
     renamePlaceholders(stagingDir, name)
     rewriteComposeCreds(stagingDir, name)
+    rewriteRenderCreds(stagingDir, name)
     rewriteCiCreds(stagingDir, name)
     renameSync(stagingDir, targetDir)
   } catch (e) {
