@@ -54,6 +54,9 @@ function downloadTemplate(targetDir) {
     stdio: ['ignore', 'inherit', 'inherit'],
   })
   rmSync(join(targetDir, '.git'), { recursive: true, force: true })
+  // Drop the template marker: its absence signals a scaffolded project (where
+  // ADRs are append-only), its presence signals the template itself.
+  rmSync(join(targetDir, '.lunette-template'), { force: true })
 }
 
 function walk(dir, files = []) {
