@@ -1,5 +1,7 @@
 # @lntt/create
 
+> **Repo archiviato.** La CLI `@lntt/create` vive ora in [`LunetteOrg/starter/packages/create`](https://github.com/LunetteOrg/starter/tree/main/packages/create), da cui vengono pubblicate le release su npm. Questo repo resta in sola lettura come storico.
+
 CLI per scaffoldare un nuovo progetto a partire da [`LunetteOrg/starter`](https://github.com/LunetteOrg/starter). `lntt` è l'abbreviazione (consonanti) di "lunette" usata come namespace npm; l'org GitHub resta `LunetteOrg`.
 
 ## Uso
